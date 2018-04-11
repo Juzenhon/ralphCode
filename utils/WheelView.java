@@ -1,8 +1,6 @@
-package com.syswin.toon.view;
+package com.test.www;
 
 import java.util.ArrayList;
-
-import com.syswin.toon.utils.YuanXinLog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -116,7 +114,7 @@ public class WheelView extends ViewGroup {
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-		YuanXinLog.log_d(TAG, "onMeasure widthMode = " + widthMode
+		Log.d(TAG, "onMeasure widthMode = " + widthMode
 				+ ",widthSize = " + widthSize);
 		if (widthMode == MeasureSpec.UNSPECIFIED) {
 			widthMeasureSpec = MeasureSpec.makeMeasureSpec(
@@ -153,9 +151,6 @@ public class WheelView extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		// YuanXinLog.log_d(TAG, "onLayout changed = " + changed + ",l = " + l +
-		// ", t = " + t
-		// + ",r = " + r + ",b = " + b);
 
 		if (mAdapter == null || mItemCount == 0) {
 			resetList();
@@ -190,10 +185,6 @@ public class WheelView extends ViewGroup {
 			}
 		}
 		mInLayout = false;
-
-		// YuanXinLog.log_d(TAG, "mFirstVisiblePosition = " +
-		// mFirstVisiblePosition
-		// + ",getchildCount = " + getChildCount());
 
 	}
 
@@ -345,13 +336,11 @@ public class WheelView extends ViewGroup {
 
 	@Override
 	protected void onRestoreInstanceState(Parcelable state) {
-		// YuanXinLog.log_d(TAG, "onRestoreInstanceState");
 		super.onRestoreInstanceState(state);
 	}
 
 	private int fillFromTop(int l, int t, int r, int b) {
 
-		// YuanXinLog.log_d(TAG, "fillFromTop top = " + t + ",bottom = " + b);
 		if (b - t < 1) {
 			return 0;
 		}
@@ -372,13 +361,11 @@ public class WheelView extends ViewGroup {
 
 			position--;
 		}
-		// YuanXinLog.log_d(TAG, "fillup count = " + count);
 		return count;
 	}
 
 	private void fillFromBottom(int l, int t, int r, int b) {
 
-		// YuanXinLog.log_d(TAG, "down top = " + t + ",bottom = " + b);
 
 		if (b - t < 1) {
 			return;
@@ -524,8 +511,6 @@ public class WheelView extends ViewGroup {
 
 	private void trackMotionScroll(int delta) {
 
-		// YuanXinLog.log_d(TAG, "trackMotionScroll mFirstVisiblePosition = "
-		// + mFirstVisiblePosition + ",delta = " + delta);
 		int childCount = getChildCount();
 		if (childCount == 0) {
 			return;
@@ -610,9 +595,7 @@ public class WheelView extends ViewGroup {
 			alpha = 0.6f + 0.4f * (2 - ratio);
 		}
 		translateY = offset * (1 - ratio);
-		// YuanXinLog.log_d(TAG, "transformView alpha = " + alpha +
-		// ",mCenterY = " +
-		// mCenterY + ", vc - mCenterY  = " + (vc - mCenterY));
+        
 		if (view instanceof TextView) {
 			boolean isCenter = vc > getCenterRectTop()
 					&& vc < getCenterRectBottom();
@@ -631,8 +614,7 @@ public class WheelView extends ViewGroup {
 		int top = child.getTop();
 		int delta = getCenterRectTop() - top;
 		mFlingRunnable.startScroll(top, delta);
-		// YuanXinLog.log_d("ralph", "scrollIntoSlot top  " + top + ",  delta ="
-		// + delta);
+		
 	}
 
 	private void initOrResetVelocityTracker() {
@@ -693,8 +675,7 @@ public class WheelView extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// YuanXinLog.log_d(TAG, "onTouchEvent ");
-
+	
 		final int childCount = getChildCount();
 		if (childCount == 0) {
 			return false;
@@ -715,7 +696,6 @@ public class WheelView extends ViewGroup {
 
 			break;
 		case MotionEvent.ACTION_MOVE:
-			// YuanXinLog.log_d(TAG, "ACTION_MOVE ");
 			int pointerIndex = event.findPointerIndex(mActivePointerId);
 			if (pointerIndex == -1) {
 				pointerIndex = 0;
@@ -762,7 +742,6 @@ public class WheelView extends ViewGroup {
 			break;
 		case MotionEvent.ACTION_UP: {
 			// case MotionEvent.ACTION_CANCEL:
-			// YuanXinLog.log_d(TAG, "ACTION_UP ");
 			y = (int) event.getY();
 			if (mCanScroll) {
 				mState = State.STATE_FLING;
@@ -795,7 +774,6 @@ public class WheelView extends ViewGroup {
 	}
 
 	private void onScroll(int delta) {
-		// YuanXinLog.log_d(TAG, "onScroll y = " + delta);
 		trackMotionScroll(delta);
 	}
 
@@ -816,7 +794,6 @@ public class WheelView extends ViewGroup {
 
 	private void perfromItemClick(int y) {
 
-		// YuanXinLog.log_d(TAG, "perfromItemClick y = " + y);
 		int clickPos = getPositionfromY(y);
 		if (clickPos == INVALID_POSITION) {
 			return;
@@ -905,7 +882,6 @@ public class WheelView extends ViewGroup {
 		}
 
 		public void startFling(int velocityY) {
-			// YuanXinLog.log_d(TAG, "startFling velocityY = " + velocityY);
 			endFling();
 			int initialY = velocityY < 0 ? Integer.MAX_VALUE : 0;
 			mScroller.fling(0, initialY, 0, velocityY, 0, 0, Integer.MIN_VALUE,
@@ -915,8 +891,6 @@ public class WheelView extends ViewGroup {
 		}
 
 		public void startScroll(int start, int delta) {
-			// YuanXinLog.log_d(TAG, "startScroll start = " + start +
-			// ",delta = " + delta);
 			endFling();
 			mState = State.STATE_SCROLL_SLOT;
 			mScroller.startScroll(0, start, 0, delta, 150);
@@ -931,7 +905,6 @@ public class WheelView extends ViewGroup {
 
 		@Override
 		public void run() {
-			// YuanXinLog.log_d(TAG, "startFling run = ");
 			if (mScroller.computeScrollOffset()) {
 				int currY = mScroller.getCurrY();
 				int dy = currY - mLastY;
@@ -950,7 +923,6 @@ public class WheelView extends ViewGroup {
 	class WheelDataSetObserver extends DataSetObserver {
 		@Override
 		public void onChanged() {
-			// YuanXinLog.log_d(TAG, "adapter onChanged");
 			resetList();
 			mDataChanged = true;
 			mItemCount = mAdapter.getCount();
@@ -961,7 +933,6 @@ public class WheelView extends ViewGroup {
 
 		@Override
 		public void onInvalidated() {
-			// YuanXinLog.log_d(TAG, "adapter onInvalidated");
 			super.onInvalidated();
 
 		}

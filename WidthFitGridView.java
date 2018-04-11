@@ -1,4 +1,4 @@
-package com.systoon.toon.common.view;
+package com.ralph.code;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
